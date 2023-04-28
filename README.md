@@ -71,13 +71,12 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [✔️] Make the backend.
 - [✔️] Make the UI and backend responsive
 - [✔️] Process image and make the identifier predict
-- [ ] Remake the image and process the identified object to image
-- [ ] Send image to the UI
-- [ ] ....
+- [✔️] Remake the image and process the identified object to image
+- [✔️] Send image to the UI
+- [ ] Implement the loading screen
   - [ ] ....
   - [ ] ....
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -105,7 +104,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Berke Kaan Kırcı - [@your_twitter](https://twitter.com/your_username) - berkekirci@gmail.com
+Berke Kaan Kırcı - berkekirci@gmail.com
 
 Project Link: [https://github.com/hqunted/Object_Identifier](https://github.com/hqunted/Object_Identifier)
 
