@@ -33,6 +33,23 @@ app.use(
   })
 );
 
+//File Deleter
+const deleteFile = (filePath) => {
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Deleted file ${filePath}`);
+    }
+  });
+};
+//Base64 converter
+const getBase64Image = (filePath) => {
+  const imageData = fs.readFileSync(filePath);
+  const base64Image = imageData.toString("base64");
+  return base64Image;
+};
+
 //Object Identification
 async function predict(imagePath) {
   // load the COCO-SSD model
@@ -71,16 +88,18 @@ async function predict(imagePath) {
   // save image with bbox to disk
   const filenameWithBbox = `${crypto.randomUUID()}_bbox.jpg`;
   sendDataToClient(`./uploads/${filenameWithBbox}`);
-  await newImg.writeAsync(`./uploads/${filenameWithBbox}`);
+  fs.unlink(filenameWithBbox, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Deleted file ${filenameWithBbox}`);
+    }
+  });
 
+  await newImg.writeAsync(`./uploads/${filenameWithBbox}`);
+  deleteFile(imagePath);
   return predictions;
 }
-
-const getBase64Image = (filePath) => {
-  const imageData = fs.readFileSync(filePath);
-  const base64Image = imageData.toString("base64");
-  return base64Image;
-};
 
 const sendDataToClient = (imageData) => {
   io.on("connection", (socket) => {
@@ -88,6 +107,9 @@ const sendDataToClient = (imageData) => {
 
     // Send image data to client
     socket.emit("imageData", getBase64Image(imageData));
+
+    //Delete imageData after sending
+    deleteFile(imageData);
 
     // Disconnect the client after sending the data
     socket.disconnect();
@@ -108,9 +130,8 @@ const storage = multer.diskStorage({
     const filename = `${crypto.randomUUID()}.${file.originalname}`;
     cb(null, filename);
     //Making prediction
-    predict(`./uploads/${filename}`).then((predictions) => {
-      // send predictions to client
-    });
+
+    predict(`./uploads/${filename}`).then((predictions) => {});
   },
 });
 const upload = multer({ storage });
