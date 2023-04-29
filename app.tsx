@@ -103,7 +103,6 @@ async function predict(imagePath) {
 
 const sendDataToClient = (imageData) => {
   io.on("connection", (socket) => {
-    console.log("Client connected");
 
     // Send image data to client
     socket.emit("imageData", getBase64Image(imageData));
@@ -113,7 +112,6 @@ const sendDataToClient = (imageData) => {
 
     // Disconnect the client after sending the data
     socket.disconnect();
-    console.log("Client disconnected");
   });
 
   http.listen(3000, () => {
@@ -126,7 +124,6 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    console.log(file);
     const filename = `${crypto.randomUUID()}.${file.originalname}`;
     cb(null, filename);
     //Making prediction
