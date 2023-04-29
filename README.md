@@ -55,6 +55,7 @@ An app that takes an image from the client and detects objects on that image.
 - [![Express.js][express.js]][express-url]
 - [![Javascript][javascript]][javascript-url]
 - [![TailwindCSS][tailwindcss]][tailwindcss-url]
+- [![Socket.io][SocketIo]][SocketIo-url]
 
 
 
@@ -154,4 +155,6 @@ Use this space to list resources you find helpful and would like to give credit 
 [javascript-url]: https://www.javascript.com/
 [tailwindcss]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [tailwindcss-url]: https://tailwindcss.com/
+[SocketIo]: https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101
+[SocketIo-url]: https://socket.io/
 
