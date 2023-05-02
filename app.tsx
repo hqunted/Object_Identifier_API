@@ -17,7 +17,7 @@ const io = require("socket.io")(http);
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
       if (!origin) {
         return callback(null, true);
       }
@@ -101,24 +101,6 @@ async function predict(imagePath) {
   return predictions;
 }
 
-const sendDataToClient = (imageData) => {
-  io.on("connection", (socket) => {
-
-    // Send image data to client
-    socket.emit("imageData", getBase64Image(imageData));
-
-    //Delete imageData after sending
-    deleteFile(imageData);
-
-    // Disconnect the client after sending the data
-    socket.disconnect();
-  });
-
-  http.listen(3000, () => {
-    console.log("Server started on port 3000");
-  });
-};
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -143,3 +125,19 @@ app.get("/", (req, res) => {});
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+const sendDataToClient = (imageData) => {
+  const server = io.listen(3000);
+
+  server.on("connection", (socket) => {
+    // Send image data to client
+    socket.emit("imageData", getBase64Image(imageData));
+
+    //Delete imageData after sending
+    deleteFile(imageData);
+
+    // Disconnect the client after sending the data
+  });
+
+  console.log("Connection established on port 3000");
+};
