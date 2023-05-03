@@ -14,6 +14,7 @@ const Jimp = require("jimp");
 const { createCanvas, loadImage } = require("canvas");
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+const server = io.listen(3000);
 
 app.use(
   cors({
@@ -32,6 +33,22 @@ app.use(
     },
   })
 );
+
+//Data sender to Client
+const sendDataToClient = (imageData) => {
+  server.on("connection", (socket) => {
+    // Send image data to client
+    socket.emit("imageData", getBase64Image(imageData));
+    console.log(imageData);
+
+    //Delete imageData after sending
+    deleteFile(imageData);
+
+    // Disconnect the client after sending the data
+  });
+
+  console.log("Connection established on port 3000");
+};
 
 //File Deleter
 const deleteFile = (filePath) => {
@@ -87,16 +104,10 @@ async function predict(imagePath) {
 
   // save image with bbox to disk
   const filenameWithBbox = `${crypto.randomUUID()}_bbox.jpg`;
-  sendDataToClient(`./uploads/${filenameWithBbox}`);
-  fs.unlink(filenameWithBbox, (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log(`Deleted file ${filenameWithBbox}`);
-    }
-  });
-
   await newImg.writeAsync(`./uploads/${filenameWithBbox}`);
+  sendDataToClient(`./uploads/${filenameWithBbox}`);
+  console.log(imagePath);
+  console.log(filenameWithBbox);
   deleteFile(imagePath);
   return predictions;
 }
@@ -109,8 +120,9 @@ const storage = multer.diskStorage({
     const filename = `${crypto.randomUUID()}.${file.originalname}`;
     cb(null, filename);
     //Making prediction
-
-    predict(`./uploads/${filename}`).then((predictions) => {});
+    predict(`./uploads/${filename}`).then((predictions) => {
+      return predictions;
+    });
   },
 });
 const upload = multer({ storage });
@@ -125,19 +137,3 @@ app.get("/", (req, res) => {});
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
-
-const sendDataToClient = (imageData) => {
-  const server = io.listen(3000);
-
-  server.on("connection", (socket) => {
-    // Send image data to client
-    socket.emit("imageData", getBase64Image(imageData));
-
-    //Delete imageData after sending
-    deleteFile(imageData);
-
-    // Disconnect the client after sending the data
-  });
-
-  console.log("Connection established on port 3000");
-};
