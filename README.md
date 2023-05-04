@@ -9,15 +9,9 @@
 
   <p align="center">
     Object Identifier made with a cocoSSD!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+   <br />
+     <a href="https://objectidentifierr.netlify.app/">View Demo</a>
+     <br />
   </p>
 </div>
 
@@ -74,10 +68,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [✔️] Process image and make the identifier predict
 - [✔️] Remake the image and process the identified object to image
 - [✔️] Send image to the UI
-- [ ] Implement the loading screen
-  - [ ] ....
-  - [ ] ....
-
+- [✔️] Implement the loading screen
+- [✔️] All Done!
+  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
